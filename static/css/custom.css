@@ -1,0 +1,150 @@
+/* Custom CSS elements and overrides */
+
+.iconcolour {
+    color: #008A7E;
+}
+
+.dc-chart g.row text {
+    fill: black;
+
+}
+
+.button {
+    background-color: #307970; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+td.dc-table-label {
+
+    background-color: #5A979C;
+    color: white;
+    font-size: 14px;
+    font-weight: normal;
+}
+
+#dataTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#dataTable td, #data-table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#dataTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#dataTable tr:hover {
+    background-color: #ddd;
+}
+
+#dataTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #307970;
+    font-weight: normal;
+    color: white;
+}
+
+
+body.geo {
+    background: #99E1D9;
+}
+
+body.application {
+    background: #99E1D9;
+    padding: 5px 20px 5px;
+}
+
+body.application > .container-fluid {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+body.application div[class^="col-"] {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+body.application div[class^="col-"] div[class^="col-"] {
+    padding-left: inherit;
+    padding-right: inherit;
+    padding-bottom: inherit;
+}
+
+
+body.application hr {
+    border-color: #70ABAF;
+    margin: 5px 0;
+}
+
+.navbar-inverse {
+    background-color: #29867d;
+}
+
+.navbar-inverse .navbar-nav > li > a,
+.navbar a.navbar-brand {
+    color: #fbfbfb;
+    text-decoration: none;
+}
+
+.chart-wrapper {
+    background: #fff;
+    border: 2px solid #70ABAF;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.chart-wrapper .chart-title {
+    border-bottom: 1px solid #9da2a2;
+    font-size: 14px;
+    font-weight: 200;
+    color: white;
+    background-color: #79c5bd;
+    padding: 7px 10px 4px;
+}
+
+
+.rightal {
+    text-align: right;
+}
+
+.chart-wrapper .chart-stage {
+    overflow: hidden;
+    align-items: center;
+}
+
+
+
+.chart-stage-number {
+    overflow: hidden;
+    padding: 5px 10px;
+    position: relative;
+    align-items: center;
+    font-size: 30px;
+}
+
+.chart-wrapper .chart-notes {
+    background: #fbfbfb;
+    border-top: 1px solid #70ABAF;
+
+    color: #808080;
+    font-size: 12px;
+    padding: 8px 10px 5px;
+}
+
+tr.group,
+tr.group:hover {
+    background-color: #ddd !important;
+}
+
+

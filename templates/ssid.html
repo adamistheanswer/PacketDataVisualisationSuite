@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - SSID Analysis</title>
+    <link rel="stylesheet" href="./static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./static/css/dc.min.css">
+    <link rel="stylesheet" href="./static/css/leaflet.css">
+    <link rel="stylesheet" href="./static/css/custom.css">
+     <!--Font Awesome Used for Icons-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.1/css/all.css"
+          integrity="sha384-O8whS3fhG2OnA5Kas0Y9l3cfpmYjapjI0E4theH4iuMD+pLhbf6JI0jIMfYcK3yZ" crossorigin="anonymous">
+
+</head>
+<body class="application">
+<div id="section1"></div>
+<div class="loader"></div>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="./">Device Footprints Through Wifi 802.11 Probe Request Frames</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="/">Data Overview</a></li>
+                <li><a href="/vendor">Vendor Analysis</a></li>
+                <li><a href="/ssid">SSID Analysis</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+    .dc-chart select {
+        width: 100%;
+        -webkit-appearance: button;
+        -webkit-border-radius: 2px;
+        -webkit-padding-end: 0px;
+        -webkit-padding-start: 2px;
+        background-image: url(http://i62.tinypic.com/15xvbd5.png);
+        background-position: 97% center;
+        background-repeat: no-repeat;
+        border: 1px solid #AAA;
+        background-color: #008A7E;
+        color: #fff;
+        font-size: inherit;
+        padding: 5px;
+    }
+</style>
+
+<div class="container-fluid">
+    <br><br><br>
+
+
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="chart-wrapper">
+                <div class="chart-stage-number">
+                    <div style="text-align: center;">
+                        <a href="#" class="btn btn-primary btn-block disabled">Full Visible SSID Analysis</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="chart-wrapper">
+                <div class="chart-stage-number">
+                    <div style="text-align: center;">
+                        <a href="/ssidnolocal" type="button" class="btn btn-primary btn-block active">Filter Local Networks</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Nº Previously Connected Networks
+                </div>
+                <div class="chart-stage-number">
+                    <div style="text-align: center;">
+                        <div id="VisNetworks"><i class="fas fa-wifi iconcolour" style="
+    padding-right: 10px;
+"> </i></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Max SSIDs From Single Device
+                </div>
+                <div class="chart-stage-number">
+                    <div style="text-align: center;">
+                        <div id="maxNetVis"><i class="fas fa-sort-amount-up iconcolour" style="
+    padding-right: 10px;
+"> </i></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Average SSID's Count Across Devices
+                </div>
+                <div class="chart-stage-number">
+                    <div style="text-align: center;">
+                        <div id="AverageMac"><i class="fas fa-align-center iconcolour" style="
+    padding-right: 10px;
+"> </i></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Nº MACs With Visible SSIDs
+                </div>
+                <div class="chart-stage-number">
+                    <div style="text-align: center;">
+                        <div id="uniqueDevices"><i class="fas fa-mobile-alt iconcolour" style="
+    padding-right: 10px;
+"> </i></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" style="
+    padding-left: 20px;
+    padding-right: 5px;
+">
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Vendor Selection <a class="pull-right" href="javascript:dc.filterAll();dc.redrawAll();">reset</a>
+                    </div>
+                    <div class="search">
+                        <div style="text-align: center;">
+                            <div id="search"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6" style="
+    padding-left: 5px;
+    padding-right: 20px;
+">
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        BIA MAC Address (OUI Enforced) or Locally Administered <a class="pull-right" href="javascript:dc.filterAll();dc.redrawAll();">reset</a>
+                    </div>
+                    <div class="search">
+                        <div style="text-align: center;">
+                            <div id="randomisation"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4" style="padding-left: 20px;">
+
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Top 10 Common SSIDs <a class="pull-right" href="javascript:dc.filterAll();dc.redrawAll();">reset</a>
+                    </div>
+                    <div class="chart-stage">
+                        <div style="text-align: center;">
+                            <div id='ssidChart'>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4" style="padding-left: 5px;">
+
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Networks Per MAC Address <a class="pull-right" href="javascript:dc.filterAll();dc.redrawAll();">reset</a>
+                    </div>
+                    <div class="chart-stage">
+                        <div style="text-align: center;">
+                            <div id='packetPies' style="
+    padding-top: 10px;"
+                            >
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-4" style="padding-right: 20px;">
+
+                <div class="chart-wrapper">
+                    <div class="chart-title">
+                        Top 10 Devices with Exposed Networks <a class="pull-right" href="javascript:dc.filterAll();dc.redrawAll();">reset</a>
+                    </div>
+                    <div class="chart-stage">
+                        <div style="text-align: center;">
+                            <div id='macChart'>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-12" style="
+    padding-left: 5px;
+    padding-right: 5px;
+">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Found Networks Timeline <a class="pull-right" href="javascript:dc.filterAll();dc.redrawAll();">reset</a>
+                </div>
+                <div class="search">
+                    <div style="text-align: center;">
+                        <div id='timeChart'>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="chart-wrapper">
+            <div class="chart-title">
+                Geolocate All Networks Related to Device <a class="pull-right" href="javascript:dc.filterAll();dc.redrawAll();">reset</a>
+            </div>
+            <div class="input-group"><input type="text" id="MACLocate" class="form-control" placeholder="Paste MAC Address Here..."><div class="input-group-btn">
+                <button class="button" onclick="InputMACBox()"><i class="fas fa-globe"></i>  Map all networks</button></div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-6">
+        <div class="chart-wrapper">
+            <div class="chart-title">
+                Geolocate All Networks Without Public <a class="pull-right" href="javascript:dc.filterAll();dc.redrawAll();">reset</a>
+            </div>
+            <div class="input-group"><input type="text" id="SSIDLocateNoLocal" class="form-control" placeholder="Paste MAC Address Here..."><div class="input-group-btn">
+                <button class="button" onclick="InputMACBoxNoLocal()"><i class="fas fa-globe"></i>  Map networks</button></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+    <div class="row" style="
+    padding-left: 10px;
+    padding-right: 10px;">
+    <div class="chart-wrapper">
+        <div class="chart-title">
+            Geolocate SSIDs
+        </div>
+
+
+        <div class="chart-stage">
+            <table id="dataTable">
+                <thead>
+                <tr class='header'>
+                    <th>Visible SSID</th>
+                    <th>Packet Type</th>
+                    <th>Timestamp</th>
+                    <th>Packet Sniff Location</th>
+                    <th>Geolocate SSID</th>
+
+                </tr>
+                </thead>
+            </table>
+            <div id="paging" style="
+    padding-left: 15px;
+">
+                Showing <span id="begin"></span>-<span id="end"></span> of <span id="size"></span>.
+                <input id="last" class="btn" type="Button" value="Last" onclick="javascript:last()"/>
+                <input id="next" class="btn" type="button" value="Next" onclick="javascript:next()"/>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="./static/lib/js/jquery.min.js"></script>
+<script src="./static/lib/js/bootstrap.min.js"></script>
+<script src="./static/lib/js/underscore-min.js"></script>
+<script src="./static/lib/js/crossfilter.js"></script>
+<script src="./static/lib/js/d3.min.js"></script>
+<script src="./static/lib/js/dc.min.js"></script>
+<script src="./static/lib/js/queue.js"></script>
+<script src='./static/js/ssid.js' type='text/javascript'></script>
+
+
+</body>
+</html>
