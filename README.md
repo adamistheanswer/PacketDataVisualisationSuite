@@ -1,7 +1,10 @@
-# PacketDataVisualisationSuite
+# Probe Request & MAC Randomisation Visualisation Suite
 
-Wireless Packet and MAC Randomisation Data Visualisation Toolkit
+M.Sc Dissertation project
 
+# Dataset Overview
 ![Overview Stats](/img/Home.png)
+# Manufacturer Analysis
 ![Vendor Overview](/img/Vendor.png)
+# SSID Analyis & Geolocation
 ![SSID Analysis](/img/SSID.png)
